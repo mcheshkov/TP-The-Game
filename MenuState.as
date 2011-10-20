@@ -10,6 +10,8 @@ package{
 			var press_to:FlxText;
 			press_to = new FlxText(FlxG.width-100,FlxG.height-24,100,"Press X to start");
 			this.add(press_to);
+
+			FlxG.bgColor=0xff000000;
 		}
 
 		override public function update():void{
@@ -20,7 +22,7 @@ package{
 				YES = new FlxText(FlxG.width/2+FlxG.random()*100,FlxG.height/2,50,"YES!");
 				this.add(YES);
 				FlxG.flash(0xffffffff, 0.3,onFade);
-				FlxG.fade(0xff000000, 1);	
+				FlxG.fade(0xff000000, 1);
 			}
 			else {
 				//FlxG.flash(0xff0000ff,0.75);
