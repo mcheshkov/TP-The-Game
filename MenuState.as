@@ -28,7 +28,7 @@ package{
 		}
 
 		private function onFade():void{
-			FlxG.flash(0xffff0000, 0.75);
+			FlxG.switchState(new PlayState());
 		}
 	}
 }

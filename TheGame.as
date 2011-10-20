@@ -9,6 +9,7 @@ package
 		public function TheGame()
 		{
 			super(320,240,MenuState,2); //Create a new FlxGame object at 320x240 with 2x pixels, then load PlayState
+			forceDebugger = true;
 		}
 	}
 }
