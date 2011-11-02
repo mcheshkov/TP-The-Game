@@ -3,10 +3,12 @@ package{
 	
 	public class Player extends FlxSprite{
 		[Embed (source = "assets/player.png")] private var sprite:Class;
+		[Embed (source="assets/jump.mp3")] private var jump:Class;
 
 		private var _speed:int = 400;
 		private var _bullets:FlxGroup;
 		private var can_shoot:Boolean = true;
+		private var a:FlxSound;
 		
 		public function Player(X:Number,Y:Number,bullets:FlxGroup):void{
 			super(X,Y);
@@ -34,13 +36,16 @@ package{
 			//Allow collisions
 			solid = true;
 
+			a = new FlxSound;
+			a.loadEmbedded(jump);
+
 			health=2;
 			_bullets = bullets;
 		}
 
 		override public function update():void{
 			if(FlxG.keys.LEFT){
-				play('run');
+				a.play();
 				facing = LEFT;
 				velocity.x -= _speed * FlxG.elapsed;
 			}
@@ -55,9 +60,11 @@ package{
 			
 			if (FlxG.keys.UP && (this.touching&DOWN)){
 				velocity.y-= 300;
+				FlxG.play(jump);
 			}
 
 			if (FlxG.keys.justPressed("C") && can_shoot){
+				FlxG.play(jump);
 				_bullets.add(new Bullet(x,y,facing));
 				can_shoot = false;
 				var t:FlxTimer = new FlxTimer();

@@ -31,6 +31,11 @@ package{
 			}
 
 			loadGraphic(gr);
+
+			offset.x=11;
+			offset.y = 28;
+			width = 37;
+			height = 19;
 		}
 	}
 }
