@@ -5,6 +5,10 @@ package
 	public class PlayState extends FlxState
 	{
 		[Embed(source="assets/level1.txt", mimeType = "application/octet-stream")] private var Level_1:Class;
+		[Embed(source="assets/column.png")] private var column_sprite:Class;
+		[Embed(source="assets/door_1.png")] private var door_1_sprite:Class;
+		
+		[Embed(source="assets/BG_1.png")] private var BG_1_sprite:Class;
 		
 		private var _player:Player;
 		private var _exit:FlxSprite;
@@ -12,20 +16,26 @@ package
 		private var _pickups:FlxGroup;
 		private var _BG_1:FlxGroup;
 		private var _BG_2:FlxGroup;
+		private var _BG_pic:FlxSprite;
 		
 		override public function create():void
 		{
 			FlxG.bgColor = 0xffcccccc;
-			
-			_exit = new FlxSprite(1100,0);
-			_exit.makeGraphic(16,240,0xff0000ff);
-			add(_exit);
 
+			addBG_pic();
+			
 			_BG_2 = new FlxGroup();
 			add(_BG_2);
 
 			_BG_1 = new FlxGroup();
 			add(_BG_1);
+
+			addColumns();
+			addDoors();
+
+			_exit = new FlxSprite(1100,0);
+			_exit.makeGraphic(16,240,0xff0000ff);
+			add(_exit);
 
 			_pickups = new FlxGroup();
 			add(_pickups);
@@ -35,17 +45,6 @@ package
 
 			_player = new Player(10,100);
 			add(_player);
-
-			var obj3: FlxSprite = new FlxSprite(80,80);
-			obj3.makeGraphic(80,120,0xffcc0088);
-			obj3.scrollFactor.x=0.3;
-			obj3.scrollFactor.y=0.3;
-			_BG_2.add(obj3);
-			var obj4: FlxSprite = new FlxSprite(240,80);
-			obj4.makeGraphic(80,120,0xff44aa11);
-			obj4.scrollFactor.x=0.3;
-			obj4.scrollFactor.y=0.3;
-			_BG_2.add(obj4);
 
 			var pick:Pickup = new Pickup(400,150);
 			_pickups.add(pick);
@@ -59,15 +58,36 @@ package
 			FlxG.watch(_level,"width");
 		}
 
+		private function addBG_pic():void{
+			_BG_pic = new FlxSprite(0,0);
+			_BG_pic.loadGraphic(BG_1_sprite);
+			_BG_pic.scrollFactor.x=0;
+			_BG_pic.scrollFactor.y=0;
+			add(_BG_pic);
+		}
+
 		private function addColumns():void{
-			var ar:Array = [100,200];
-			for (a in ar){
-				var obj1: FlxSprite = new FlxSprite(a,0);
-				obj1.makeGraphic(60,200,0xffccaa88);
-				obj1.scrollFactor.x=0.5;
-				obj1.scrollFactor.y=0.5;
-				_BG_1.add(obj1);
+			var ar:Array = [150,300,450,600];
+			var col: FlxSprite;
+			for each (var a:Number in ar){
+				col = new FlxSprite(a,0);
+				col.loadGraphic(column_sprite);
+				col.scrollFactor.x=0.5;
+				col.scrollFactor.y=0.5;
+				_BG_1.add(col);
 			}
+		}
+
+		private function addDoors():void{
+			var ar:Array = [120,240,400,5000];
+			var door: FlxSprite;
+			for each (var a:Number in ar){
+					door = new FlxSprite(a,0);
+					door.loadGraphic(door_1_sprite);
+					door.scrollFactor.x=0.3;
+					door.scrollFactor.y=0.3;
+					_BG_2.add(door);
+				}
 		}
 
 		override public function update():void{
