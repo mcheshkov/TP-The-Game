@@ -8,7 +8,16 @@ package{
 		
 		public function Player(X:Number,Y:Number):void{
 			super(X,Y);
-			loadGraphic(sprite,false,true);
+			loadGraphic(sprite,true,true,28,43);
+
+			addAnimation('stand',[0]);
+			addAnimation('run',[1,2,3,4,5,6],10);
+
+			width = 16;
+			height = 32;
+			offset.x=6;
+			offset.y = 4;
+			
 
 			//Max speeds
 			maxVelocity.x = 200;
@@ -28,12 +37,17 @@ package{
 
 		override public function update():void{
 			if(FlxG.keys.LEFT){
+				play('run');
 				facing = LEFT;
 				velocity.x -= _speed * FlxG.elapsed;
 			}
 			else if (FlxG.keys.RIGHT){
+				play('run');
 				facing = RIGHT;
-				velocity.x += _speed * FlxG.elapsed;                
+				velocity.x += _speed * FlxG.elapsed;
+			}
+			else if(velocity.x==0){
+				play('stand');
 			}
 			
 			if (FlxG.keys.UP && (this.touching&DOWN)){
