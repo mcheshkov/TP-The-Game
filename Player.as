@@ -5,8 +5,10 @@ package{
 		[Embed (source = "assets/player.png")] private var sprite:Class;
 
 		private var _speed:int = 400;
+		private var _bullets:FlxGroup;
+		private var can_shoot:Boolean = true;
 		
-		public function Player(X:Number,Y:Number):void{
+		public function Player(X:Number,Y:Number,bullets:FlxGroup):void{
 			super(X,Y);
 			loadGraphic(sprite,true,true,28,43);
 
@@ -33,6 +35,7 @@ package{
 			solid = true;
 
 			health=2;
+			_bullets = bullets;
 		}
 
 		override public function update():void{
@@ -54,9 +57,13 @@ package{
 				velocity.y-= 300;
 			}
 
-			if (FlxG.keys.justPressed("C")){
-				hurt(1);
+			if (FlxG.keys.justPressed("C") && can_shoot){
+				_bullets.add(new Bullet(x,y,facing));
+				can_shoot = false;
+				var t:FlxTimer = new FlxTimer();
+				t.start(0.5,1,function(t:FlxTimer):void{can_shoot = true;})
 			}
+
 			super.update();
 		}
 
