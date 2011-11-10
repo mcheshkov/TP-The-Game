@@ -42,7 +42,7 @@ package{
 
 		override public function update():void{
 			if (_shock) return;
-			if (_target == null || !_target.alive || _target.flickering){
+			if (_target == null || !_target.alive || (_target.flickering && onScreen() )){
 				facing = LEFT;
 				velocity.x = -150;
 				play('run');
@@ -85,6 +85,7 @@ package{
 				bx = x + width;
 			}
 			b.x=bx;b.y=by;
+			b.facing=facing;
 			_bolts.add(b);
 		}
 	}

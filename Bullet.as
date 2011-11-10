@@ -11,7 +11,7 @@ package{
 			width = 49;
 			height = 24;
 
-			velocity.x = 300;
+			velocity.x = 500;
 			if (dir == LEFT) velocity.x *= -1;
 		}
 		override public function update():void{

@@ -20,12 +20,8 @@ package{
 		}
 
 		public function pick(player:Player):void{
-			player.maxVelocity.x += 100;
-			player.acceleration.y -= 100;
-			var timer:FlxTimer = new FlxTimer();
-			timer.start(5,1,function(t:FlxTimer):void{
-					player.maxVelocity.x -= 100;player.acceleration.y += 100;
-				});
+			player.can_shoot=true;
+			player.health++;
 		}
 	}
 }

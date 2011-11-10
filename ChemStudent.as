@@ -39,28 +39,36 @@ package{
 
 			_target = target;
 			FlxG.watch(this,'x');
+			FlxG.watch(this,'y');
 			FlxG.watch(_target,'x');
 		}
 
 		public override function update():void{
+			var dist:Number;
+			dist = FlxU.getDistance(_target.getMidpoint(),getMidpoint());
 			if (_target != null && !blew &&
-				FlxU.abs(_target.getMidpoint().x - getMidpoint().x)<40){
+				dist<40){
 				blow();
-				(new FlxTimer()).start(0.4,1,function(T:FlxTimer):void{
-						height=45;
-						width=57;
-						y-=14;
-						x-=17
-						offset.x=0;
-						offset.y=0;
-					});
 			}
 		}
 
 		public function blow():void{
+			if (blew) return;
 			blew = true;
 			play('blow');
-			(new FlxTimer()).start(1,1,function(T:FlxTimer):void{kill();});
+			(new FlxTimer()).start(0.4,1,function(T:FlxTimer):void{
+					height=45;
+					width=57;
+					y-=14;
+					x-=17;
+					offset.x=0;
+					offset.y=0;
+				});
+			(new FlxTimer()).start(0.9,1,function(T:FlxTimer):void{kill();});
+		}
+		public override function kill():void{
+			if (!blew) blow();
+			else super.kill();
 		}
 	}
 }

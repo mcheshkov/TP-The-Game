@@ -7,7 +7,7 @@ package{
 
 		private var _speed:int = 400;
 		private var _bullets:FlxGroup;
-		private var can_shoot:Boolean = true;
+		public var can_shoot:Boolean = false;
 		private var a:FlxSound;
 		
 		public function Player(X:Number,Y:Number,bullets:FlxGroup):void{
@@ -24,7 +24,7 @@ package{
 			
 
 			//Max speeds
-			maxVelocity.x = 200;
+			maxVelocity.x = 150;
 			maxVelocity.y = 200;
 			//Gravity
 			acceleration.y = 400;
@@ -45,26 +45,31 @@ package{
 
 		override public function update():void{
 			if(FlxG.keys.LEFT){
-				a.play();
+				play('run');
 				facing = LEFT;
-				velocity.x -= _speed * FlxG.elapsed;
+				//velocity.x -= _speed * FlxG.elapsed;
+				acceleration.x = -600;
 			}
 			else if (FlxG.keys.RIGHT){
 				play('run');
 				facing = RIGHT;
-				velocity.x += _speed * FlxG.elapsed;
+				//velocity.x += _speed * FlxG.elapsed;
+				acceleration.x = 600;
 			}
-			else if(velocity.x==0){
-				play('stand');
+			else{
+				acceleration.x = 0;
+				if(velocity.x==0){
+					play('stand');
+				}
 			}
 			
 			if (FlxG.keys.UP && (this.touching&DOWN)){
-				velocity.y-= 300;
-				FlxG.play(jump);
+				velocity.y-= 200;
+				a.play();
 			}
 
 			if (FlxG.keys.justPressed("C") && can_shoot){
-				FlxG.play(jump);
+				a.play();
 				_bullets.add(new Bullet(x,y,facing));
 				can_shoot = false;
 				var t:FlxTimer = new FlxTimer();

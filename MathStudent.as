@@ -22,7 +22,7 @@ package{
 			//Max speeds
 			maxVelocity.x = 200;
 			maxVelocity.y = 200;
-			//Gravity
+			//Gravity	
 			acceleration.y = 400;
 			//acceleration.x = 100;
 			//Friction
@@ -38,21 +38,21 @@ package{
 		}
 
 		override public function update():void{
-			if (_target == null || !_target.alive || _target.flickering){
+			if (_target == null || !_target.alive || (_target.flickering && onScreen())){
 				facing = LEFT;
 				velocity.x = -150;
 			}
 			else if (onScreen()){
 				if (_target.x < x){
 					facing = LEFT;
-					velocity.x = -150;
+					velocity.x = -100;
 				}
 				else if (_target.x > x){
 					facing = RIGHT;
-					velocity.x = 150;
+					velocity.x = 100;
 				}
 				if (_target.y < y && touching&DOWN){
-					velocity.y = -100;
+					velocity.y = -70;
 				}
 			}
 		}

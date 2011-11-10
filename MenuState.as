@@ -1,7 +1,11 @@
 package{
+	import org.flixel.plugin.photonstorm.FlxBitmapFont;	
 	import org.flixel.*;
 	
 	public class MenuState extends FlxState {
+		private const CHARSET:String = " АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя!\"#$()*+,-./0123456789:;<=>?@";
+		[Embed(source="assets/cyrfont.png")] private var imgFont:Class;
+		
 		public function MenuState():void{
 			var title:FlxText;
 			title = new FlxText(FlxG.width/2-100,10,100,"The Game");
@@ -10,6 +14,12 @@ package{
 			var press_to:FlxText;
 			press_to = new FlxText(FlxG.width-100,FlxG.height-24,100,"Press X to start");
 			this.add(press_to);
+
+			//var f:FlxBitmapFont = new FlxBitmapFont(imgFont,8,16,CHARSET,CHARSET.length);
+
+			//f.setText("ПРИВЕТ важный ПРЕПОД >< равно != @+-",false,0,0,"left",true);
+			//f.x=f.y=50;
+			//add(f);
 
 			FlxG.bgColor=0xff000000;
 		}
@@ -21,6 +31,7 @@ package{
 				var YES:FlxText;
 				YES = new FlxText(FlxG.width/2+FlxG.random()*100,FlxG.height/2,50,"YES!");
 				this.add(YES);
+
 				FlxG.flash(0xffffffff, 0.3,onFade);
 				FlxG.fade(0xff000000, 1);
 			}
