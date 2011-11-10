@@ -5,7 +5,7 @@ package{
 		[Embed(source="assets/chem.png")] private var sprite:Class;
 
 		private var _target:FlxObject;
-		private var blew:Boolean;
+		public var blew:Boolean;
 
 		public function ChemStudent(X:Number,Y:Number,target:FlxObject){
 			super(X,Y);
@@ -55,6 +55,7 @@ package{
 		public function blow():void{
 			if (blew) return;
 			blew = true;
+			acceleration.y=0;
 			play('blow');
 			(new FlxTimer()).start(0.4,1,function(T:FlxTimer):void{
 					height=45;

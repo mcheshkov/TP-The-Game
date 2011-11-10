@@ -68,7 +68,7 @@ package{
 				a.play();
 			}
 
-			if (FlxG.keys.justPressed("C") && can_shoot){
+			if (FlxG.keys.justPressed("SPACE") && can_shoot){
 				a.play();
 				_bullets.add(new Bullet(x,y,facing));
 				can_shoot = false;

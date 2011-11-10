@@ -18,6 +18,7 @@ package
 		private var _enemies:FlxGroup;
 		private var _exit1:Stairs;
 		private var _exit2:Stairs;
+		private var _exit3:FlxObject;
 		private var _level:Level;
 		private var _pickups:FlxGroup;
 		private var _bullets:FlxGroup;
@@ -78,6 +79,9 @@ package
 			_exit2.facing = FlxObject.RIGHT;
 			add(_exit2);
 
+			_exit3 = new FlxObject(0,0,5,H3);
+			add(_exit3);
+
 			_pickups = new FlxGroup();
 			add(_pickups);
 			
@@ -103,6 +107,8 @@ package
 			setupCamera();
 
 			addHealthbar();
+
+			add(new Hint(70,30,"Торопитесь на ТурПрет",3));
 
 			initPaths();
 
@@ -197,9 +203,14 @@ package
 		private function addEnemies():void{
 			_enemies.add(new MathStudent(450,H1-50,_player));
 			_enemies.add(new MathStudent(100,H1-50,_player));
+			
+			_enemies.add(new MathStudent(350,H2-50,_player));
 			_enemies.add(new PhysStudent(300,H2-50,_bolts,_player));
+			_enemies.add(new MathStudent(450,H2-50,_player));
+			_enemies.add(new MathStudent(500,H2-50,_player));
 			_enemies.add(new PhysStudent(800,H2-50,_bolts,_player));
 			_enemies.add(new PhysStudent(850,H2-50,_bolts,_player));
+			
 			_enemies.add(new ChemStudent(850,H3-50,_player));
 			_enemies.add(new ChemStudent(500,H3-50,_player));
 			_enemies.add(new ChemStudent(400,H3-50,_player));
@@ -332,6 +343,11 @@ package
 			FlxG.overlap(_player,_enemies,onTouchEnemy);
 			FlxG.overlap(_player,_bolts,onTouchBolt);
 			FlxG.overlap(_bullets,_enemies,onTouchBullet);
+			FlxG.overlap(_player,_exit3,onFinish);
+		}
+
+		protected function onFinish(l:FlxObject,r:FlxObject):void{
+			FlxG.fade(0xffffffff,1,function():void{FlxG.switchState(new EndState());});
 		}
 
 		protected function setupCamera():void{
@@ -345,6 +361,7 @@ package
 				(r as Pickup).pick(l as Player);
 				_hb.addHealth(1);
 				r.kill();
+				add(new Hint(70,30,"Теперь вы полны сил\nНажмите ПРОБЕЛ",5));
 			}
 		}
 
@@ -356,6 +373,11 @@ package
 					l.velocity.x = 250;
 					if (l.x < r.x) l.velocity.x *= -1;
 					l.velocity.y = -50;
+					if (!l.alive){
+						(new FlxTimer()).start(1,1,function(T:FlxTimer):void{
+								revivePlayer();
+							});
+					}
 				}
 			}
 			if (r is ChemStudent){
@@ -371,11 +393,22 @@ package
 					l.velocity.x = 250;
 					if (l.x < r.x) l.velocity.x *= -1;
 					l.velocity.y = -50;
+					if (!l.alive){
+						(new FlxTimer()).start(1,1,function(T:FlxTimer):void{
+								revivePlayer();
+							});
+					}
 				}
 			}
 			if (r is Bolt){
 				(new FlxTimer()).start(1,1,function (T:FlxTimer):void{r.kill()});
 			}
+		}
+
+		protected function revivePlayer():void{
+			_player.health = 2;
+			_hb.addHealth(2);
+			_player.reset(W-50,H1-70);
 		}
 
 		protected function onTouchBullet(l:FlxObject,r:FlxObject):void{
